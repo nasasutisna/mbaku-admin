@@ -1,0 +1,47 @@
+<div class="container-fluid" style="width:100%">
+  <div *ngIf="!isTransaction" class="container" fxLayout="column">
+    <h3>SELAMAT DATANG DI APLIKASI MBAKU</h3>
+    <b>Mari Baca Buku</b>
+    <div style="text-align:center">
+      <img src="assets/img/maskot-new.png" width="200" height="200" (click)="toggleOpen()">
+    </div>
+    <div>
+      <button mat-raised-button type="submit" (click)="openDialog('peminjaman')" class="btn" style="width:75%;border-radius: 20px;background: #1e74ff">
+        <mat-icon>arrow_upward</mat-icon> Transaksi Peminjaman
+      </button>
+    </div>
+    <mat-divider></mat-divider>
+    <div>
+      <button mat-raised-button type="submit" class="btn" (click)="openDialog('pengembalian')" style="width:75%;border-radius: 20px;background: #d85252">
+        <mat-icon>arrow_downward</mat-icon> Transaksi Pengembalian
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="isTransaction" class="container-transaction" fxLayout="column">
+    <h3 style="text-transform: uppercase;font-weight: bold">Transaksi {{isTransaction}}</h3>
+    <p>scan QR code kartu anggota anda</p>
+    <div style="text-align:center">
+      <!-- <img src="assets/img/maskot-new.png" width="200" height="200"> -->
+
+      <zxing-scanner *ngIf="!qrResultString" [torch]="torchEnabled" [(device)]="currentDevice" (scanSuccess)="onCodeResult($event)" [formats]="formatsEnabled"
+        [tryHarder]="tryHarder" (permissionResponse)="onHasPermission($event)" (camerasFound)="onCamerasFound($event)"
+        (torchCompatible)="onTorchCompatible($event)"></zxing-scanner>
+
+      <p>
+        Result:
+        <strong>{{ qrResultString }}</strong>
+      </p>
+
+    </div>
+    <div>
+      <input class="input-text" (ngModelChange)="getAnggota($event)" matInput type="text" Placeholder="Masukan Kode Anggota" [(ngModel)]="qrResultString">
+    </div>
+    <div>
+      <button mat-raised-button type="submit" (click)="transaction('peminjaman')" class="btn" style="width:75%;border-radius: 20px;background: #1e74ff">
+        SUBMIT
+      </button>
+    </div>
+
+  </div>
+</div>

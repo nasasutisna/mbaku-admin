@@ -1,0 +1,8 @@
+<div fxLayout="column"style="font-weight:bold">
+    <div fxLayoutAlign="center center" style="margin-bottom:15px;">QR CODE SCANNER</div>
+    <div style="width:500px">
+        <zxing-scanner *ngIf="!qrResultString" [torch]="torchEnabled" [(device)]="currentDevice" (scanSuccess)="onCodeResult($event)" [formats]="formatsEnabled"
+        [tryHarder]="tryHarder" (permissionResponse)="onHasPermission($event)" (camerasFound)="onCamerasFound($event)"
+        (torchCompatible)="onTorchCompatible($event)"></zxing-scanner>
+    </div>
+</div>

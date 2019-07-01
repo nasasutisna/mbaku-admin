@@ -1,0 +1,167 @@
+<div class="main-content">
+  <div class="container-fluid" style="margin-top:-30px">
+      <div class="row">
+          <!-- <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                  <div class="card-header card-header-warning card-header-icon">
+                      <div class="card-icon">
+                          <i class="material-icons">content_copy</i>
+                      </div>
+                      <p class="card-category">Used Space</p>
+                      <h3 class="card-title">49/50
+                          <small>GB</small>
+                      </h3>
+                  </div>
+                  <div class="card-footer">
+                      <div class="stats">
+                          <i class="material-icons text-danger">warning</i>
+                          <a href="#pablo">Get More Space...</a>
+                      </div>
+                  </div>
+              </div>
+          </div> -->
+          <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                  <div class="card-header card-header-success card-header-icon">
+                      <div class="card-icon">
+                          <i class="material-icons">recent_actors</i>
+                      </div>
+                      <p class="card-category">Anggota</p>
+                      <h3 class="card-title">{{summary?.anggota}}</h3>
+                  </div>
+                  <div class="card-footer">
+                      <div class="stats">
+                          <i class="material-icons">date_range</i> 1 Bulan Terakhir
+                      </div>
+                  </div>
+              </div>
+          </div>
+         
+          <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                  <div class="card-header card-header-info card-header-icon">
+                      <div class="card-icon">
+                        <i class="material-icons">bookmark</i>
+                      </div>
+                      <p class="card-category">Stok Buku</p>
+                      <h3 class="card-title">{{summary?.buku?.stok}}</h3>
+                  </div>
+                  <div class="card-footer">
+                      <div class="stats">
+                          <i class="material-icons">date_range</i> Stok Buku 1 Bulan Terakhir
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-danger card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">book</i>
+                    </div>
+                    <p class="card-category">Jumlah</p>
+                    <h3 class="card-title">{{summary?.buku?.jumlah}}</h3>
+                </div>
+                <div class="card-footer">
+                    <div class="stats">
+                        <i class="material-icons">date_range</i> 1 Bulan Terakhir
+                    </div>
+                </div>
+            </div>
+        </div>
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-danger card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">border_color</i>
+                    </div>
+                    <p class="card-category">Transaksi</p>
+                    <h3 class="card-title">{{summary?.totalPeminjaman?.total}}</h3>
+                </div>
+                <div class="card-footer">
+                    <div class="stats">
+                        <i class="material-icons">date_range</i> Peminjaman 1 Bulan Terakhir
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-danger" fxLayout="row">
+                   <div>
+                      <h4 class="card-title ">Data Buku </h4>
+                    <p class="card-category">Yang belum dikembalikan</p>
+                   </div>
+                   
+                   <div fxLayoutAlign="end center" style="width:83%;">
+                    <input type="text" [formControl]="keyword" mat-input placeholder="Pencarian judul, pengarang..." class="input-search">
+                   </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead style="color:#3073dd">
+                                <th>
+                                    No
+                                </th>
+                                <th>
+                                    Kode Anggota
+                                </th>
+                                <th>
+                                    Nama Lengkap
+                                </th>
+                                <th>
+                                    Judul Buku
+                                </th>
+                                <th>
+                                    Qty
+                                </th>
+                                <th>
+                                    Tanggal Pinjam
+                                </th>
+                                <th>
+                                    Status Pinjam
+                                </th>
+                            </thead>
+                            <tbody>
+                              
+                                <tr *ngFor="let trx of transactionList;let no = index" class="book-list">
+                                    <td>
+                                        {{no+1}}
+                                    </td>
+                                    <td>
+                                        {{trx?.kode_anggota}}
+                                    </td>
+                                    <td>
+                                        {{trx?.nama_lengkap}}
+                                    </td>
+                                    <td>
+                                        {{trx?.judul}}
+                                    </td>
+                                    <td>
+                                        {{trx?.jumlah_pinjam}}
+                                    </td>
+                                    <td>
+                                        {{trx?.tanggal_pinjam}}
+                                    </td>
+                                    <td style="text-align:center">
+                                        <mat-icon *ngIf="trx?.status_pinjam">done_all</mat-icon>
+                                        <mat-icon *ngIf="!trx?.status_pinjam">schedule</mat-icon>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <mat-paginator (page)="pageEvent = handlePage($event)" #paginator style="width: 100%;background: unset;margin-bottom:50px"
+                        [length]="totalSize" [pageSizeOptions]="[5, 10, 50, 100]">
+                       </mat-paginator>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

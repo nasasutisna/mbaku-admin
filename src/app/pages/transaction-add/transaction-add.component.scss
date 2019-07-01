@@ -1,0 +1,73 @@
+.detail-anggota{
+    width: 25%;
+    // background: red;
+    // border: 1px solid silver;
+    padding:20px;
+    // text-align:center;
+}
+
+.list-book{
+    width: 70%;
+    padding:20px;
+    font-size: 14px;
+    // background: blue;
+    // border:1px solid silver;
+    background: white;
+    margin-top:30px;
+}
+
+.logo-navbar{
+    width: 200px;
+    height: 90px;
+    position: relative;
+    top: -2px;
+}
+
+.btn-remove {
+    border-radius: 50%;
+    border: none;
+    background: red;
+    color: white;
+    opacity: 0.7;
+    cursor: pointer;
+}
+.btn-remove:hover{
+ opacity: 1;
+}
+
+.scroll-book{
+    padding: 10px;
+    max-height: 210px;
+    min-height: 100px;
+    text-overflow: clip;
+    overflow-y: scroll;
+}
+
+.btn-add {
+    border-radius: 50%;
+    border: none;
+    background: #0a73af;
+    color: white;
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.btn-add:hover{
+ opacity: 1;
+}
+
+.btn-qrcode{
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+    background: #0a88d1;
+    /* background: whitesmoke; */
+    /* border: 1px solid silver; */
+    box-shadow: 0 2px 2px silver;
+    color: white;
+}
+
+.btn-qrcode:hover{
+    background: #0a73af;
+}

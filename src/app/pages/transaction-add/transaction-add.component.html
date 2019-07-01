@@ -1,0 +1,136 @@
+<div style="width:100%;height:50px;background:#d85252" fxLayout="row">
+  <div fxLayoutAlign="start center" style="padding-left:30px;" fxFlex="40">
+    <a routerLink="">
+    <img src="assets/img/logo-new.png" class="logo-navbar">
+  </a>
+  </div>
+  <div fxLayoutAlign="center center" fxFlex="30" style="color:white">
+    <b style="text-transform:uppercase;font-weight:bold">Transaksi {{ transaction}}</b>
+  </div>
+  <div fxLayoutAlign="end center" fxFlex="30" style="padding-right:100px;color:white">
+    <span style="padding-right:10px">{{dateNow}}</span>
+    <mat-icon>calendar_today</mat-icon>
+  </div>
+</div>
+<div class="container-fluid">
+  <div fxLayout="row" style="width:100%;height:80vh;">
+    <div class="detail-anggota">
+      <div style="position:relative;top:20px">
+        <div style="width:200px">
+        <img src="{{restApi.url + content?.photo}}" style="border-radius:5px" onError="this.src = 'assets/img/maskot-new.png'" width="200" height="200">
+          <div style="text-align:center">
+            <p style="margin-top:20px;">
+              {{content?.kode_anggota}} <br>
+              {{content?.nama_lengkap}}
+            </p>
+    
+            <p>Status : {{content?.status}}</p>
+        
+          <button mat-raised-button  type="submit" class="btn btn-danger" (click)="cancel()">Batalkan Transaksi</button>
+        </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="transaction == 'peminjaman'" class="list-book">
+      <div style="width:100%;border:1px solid silver;height: 250px;">
+        <div style="padding:20px">
+          <div style="width:100%;margin-bottom:10px">
+            <div fxLayout="row" *ngFor="let book of bookList" style="padding: 10px;margin-bottom: 10px;background:#fff2ef;width:100%;box-shadow:0 2px 2px silver;height: 100%;padding-left:10px;padding-right:10px;">
+              <div fxFlex='40' fxLayoutAlign="start center">
+                {{book?.kode_buku}} - {{book?.judul}}
+              </div>
+              <div fxLayoutAlign="end center" fxFlex='60'>
+                <input type="number" min="1" max="10" [(ngModel)]="book.qty" style="width:50px;margin-right: 10px;border:none;text-align: center;">
+                <button matButton (click)="remove(book?.kode_buku)" class="btn-remove">X</button>
+              </div>
+            </div>
+            <button (click)="openDialog()" class="btn-qrcode">+ Scan QR Code kode buku</button>
+
+          </div>
+        </div>
+      </div>
+      <div style="border:1px solid silver;margin-top:10px;height:170px">
+        <div class="card-body">
+          <form>
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field>
+                  <input matInput [(ngModel)]="tanggal_pengembalian" [ngModelOptions]="{standalone:true}" [matDatepicker]="dp3" placeholder="Tanggal Pengembbalian" disabled>
+                  <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                  <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <!-- <input type="date"  [(ngModel)]="tanggal_pengembalian" [ngModelOptions]="{standalone:true}"> -->
+            </div>
+         
+            <button mat-raised-button (click)="save()" [disabled]="bookList?.length == 0" type="submit" class="btn btn-success pull" style="width:100%;">Simpan Transaksi Peminjaman</button>
+            <div class="clearfix"></div>
+          </form>
+        </div>
+      </div>
+      <div>
+
+      </div>
+    </div>
+
+    <div *ngIf="transaction == 'pengembalian'" class="list-book">
+      <div style="width:100%;border:1px solid silver;height: 325px;">
+        <div class="scroll-book">
+          <div style="width:100%;margin-bottom:10px">
+            <h5 style="font-size:14px;font-weight:bold">Buku yang dipinjam :</h5>
+            <div fxLayout="row" *ngFor="let book of tempBookList" style="padding: 10px;margin-bottom: 10px;width:100%;box-shadow:0 2px 2px silver;height: 100%;padding-left:10px;padding-right:10px;">
+              <div fxFlex='40' fxLayoutAlign="start center">
+                {{book?.kode_buku}} - {{book?.judul}}
+              </div>
+              <div fxLayoutAlign="end center" fxFlex='60'>
+                <!-- <input type="number" min="1" max="10" [(ngModel)]="book.qty" style="width:50px;margin-right: 10px;border:none;text-align: center;"> -->
+                <span style="font-size:12px;padding-right:10px;">{{'Qty : ' + book?.jumlah_pinjam}}</span>
+                <button matButton (click)="addToCart(book)" class="btn-add">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="border-top: 1px solid silver"  class="scroll-book">
+          <div style="width:100%;height: 100%">
+            <div>
+              <h5 style="font-size:14px;font-weight:bold">Buku yang dikembalikan : </h5>
+            </div>
+            <div fxLayout="row" *ngFor="let book of bookList" style="padding: 10px;margin-bottom: 10px;background:#d1ffd8;width:100%;box-shadow:0 2px 2px silver;height: 100%;padding-left:10px;padding-right:10px;">
+              <div fxFlex='40' fxLayoutAlign="start center">
+                {{book?.kode_buku}} - {{book?.judul}}
+              </div>
+              <div fxLayoutAlign="end center" fxFlex='60'>
+                <!-- <input type="number" min="1" max="10" [(ngModel)]="book.qty" style="width:50px;margin-right: 10px;border:none;text-align: center;"> -->
+                <span style="font-size:12px;padding-right:10px;">{{'Qty : ' + book?.jumlah_pinjam}}</span>
+                <button matButton (click)="removePeminjaman(book)" class="btn-remove">X</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="border:1px solid silver;margin-top:10px;height:100px">
+        <div class="card-body">
+          <form>
+            <!-- <div class="row">
+              <div class="col-md-6">
+                <mat-form-field>
+                  <input matInput [(ngModel)]="tanggal_pengembalian" [ngModelOptions]="{standalone:true}" [matDatepicker]="dp3" placeholder="Tanggal Pengembbalian" disabled>
+                  <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                  <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                </mat-form-field>
+              </div> -->
+              <!-- <input type="date"  [(ngModel)]="tanggal_pengembalian" [ngModelOptions]="{standalone:true}"> -->
+            <!-- </div> -->
+         
+            <button mat-raised-button (click)="save()" [disabled]="bookList?.length == 0" type="submit" class="btn btn-success pull" style="width:100%;">Simpan Transaksi Pengembalian</button>
+            <div class="clearfix"></div>
+          </form>
+        </div>
+      </div>
+      <div>
+
+      </div>
+    </div>
+  </div>
+</div>

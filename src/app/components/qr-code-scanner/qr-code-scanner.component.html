@@ -1,0 +1,8 @@
+<zxing-scanner *ngIf="!qrResultString" [torch]="torchEnabled" [(device)]="currentDevice" (scanSuccess)="onCodeResult($event)" [formats]="formatsEnabled"
+[tryHarder]="tryHarder" (permissionResponse)="onHasPermission($event)" (camerasFound)="onCamerasFound($event)"
+(torchCompatible)="onTorchCompatible($event)"></zxing-scanner>
+
+<p>
+Result:
+<strong>{{ qrResultString }}</strong>
+</p>

@@ -1,0 +1,107 @@
+<div class="container-fluid" style="margin-top:50px;">
+  <div class="card">
+    <div class="card-header card-header-danger" fxLayout="row">
+      <div>
+        <h4 class="card-title">Form Buku</h4>
+        <p class="card-category">Lengkapi Data Buku</p>
+      </div>
+      <div fxLayoutAlign="end center" style="width:85%;">
+        <button style="background:#ff665e" mat-button (click)="cancel()">X Batal</button>
+      </div>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="myForm">
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Kode Buku" formControlName="kode_buku">
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Judul" formControlName="judul" type="text">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <input matInput formControlName="pengarang" placeholder="Pengarang" type="text">
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <mat-select formControlName="kode_kategori" placeholder="Kategori Buku">
+                <mat-option *ngFor="let opt of categoryList" value="{{opt?.kode_kategori}}">{{opt?.judul_kategori}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <input matInput formControlName="penerbit" placeholder="Penerbit" type="text">
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <input matInput formControlName="tahun_terbit" placeholder="Tahun terbit" type="number">
+            </mat-form-field>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <input matInput formControlName="stok" placeholder="Stok" type="number" min="0">
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <input matInput formControlName="jumlah" placeholder="Jumlah Buku" type="number" min="0">
+            </mat-form-field>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <textarea matInput formControlName="sinopsis" placeholder="Sinopsis"></textarea>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <input matInput formControlName="harga_ebook" placeholder="Harga Ebook" type="number" value="0" min="0">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <label>Cover Buku</label><br>
+            <div *ngIf="tempCover">
+              <img [src]="tempCover" alt="" width="80" height="80" style="margin-bottom:10px">
+            </div>
+            <input (change)="processWebImage($event,'cover-book')" type="file" placeholder="image cover">
+          </div>
+          <div class="col-md-6">
+            <label>Ebook</label>
+            <br>
+            {{tempEbook}}
+            <br>
+            <input placeholder="Ebook" type="file" (change)="processWebImage($event,'ebook')">
+          </div>
+        </div>
+
+        <button mat-raised-button (click)="save()" type="submit" class="btn btn-success pull-right" *ngIf="!serialId" [disabled]="!myForm.valid" >Simpan</button>
+        <button mat-raised-button (click)="save()" type="submit" class="btn btn-success pull-right" *ngIf="serialId" [disabled]="!myForm.valid" >Update</button>
+        <button mat-raised-button (click)="confirmDelete()" type="submit" class="btn btn-danger pull-right" *ngIf="serialId && !isDelete">Hapus</button>
+        <button mat-raised-button (click)="delete(book?.serial_id)" type="submit" class="btn btn-danger pull-right" *ngIf="serialId && isDelete">Yakin Hapus ?</button>
+        <button mat-raised-button (click)="cancelDelete()" type="submit" class="btn pull-right" *ngIf="serialId && isDelete">Batal</button>
+        <!-- <button mat-raised-button (click)="save()" type="submit" class="btn btn-danger pull-right">Simpan</button> -->
+        <div class="clearfix"></div>
+      </form>
+    </div>
+  </div>
+</div>

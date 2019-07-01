@@ -1,0 +1,77 @@
+
+    <div class="container-fluid" style="margin-top:25px">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger" fxLayout="row">
+                       <div>
+                          <h4 class="card-title ">Master Data Buku</h4>
+                        <p class="card-category"> Perpustakaan</p>
+                       </div>
+                       
+                       <div fxLayoutAlign="end center" style="width:83%;">
+                        <input type="text" [formControl]="keyword" mat-input placeholder="Pencarian judul, pengarang..." class="input-search">
+                         <button style="background:#ff665e" mat-button (click)="gotoAddPage()">+ Tambah</button>
+                       </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead style="color:#3073dd">
+                                    <th>
+                                        No
+                                    </th>
+                                    <th>
+                                        Kode Buku
+                                    </th>
+                                    <th>
+                                        Judul
+                                    </th>
+                                    <th>
+                                        Kategori
+                                    </th>
+                                    <th>
+                                        Stok
+                                    </th>
+                                    <th>
+                                        Qty
+                                    </th>
+                                </thead>
+                                <tbody>
+                                  
+                                    <tr *ngFor="let book of bookList;let no = index" class="book-list" (click)="gotoDetail(book?.kode_buku)">
+                                        <td>
+                                            {{no+1}}
+                                        </td>
+                                        <td>
+                                            {{book?.kode_buku}}
+                                        </td>
+                                        <td>
+                                            {{book?.judul}}
+                                        </td>
+                                        <td>
+                                            {{book?.kategori}}
+                                        </td>
+                                        <td>
+                                            {{book?.stok}}
+                                        </td>
+                                        <td class="text-primary">
+                                            {{book?.jumlah}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <mat-paginator (page)="pageEvent = handlePage($event)" #paginator style="width: 100%;background: unset;margin-bottom:50px"
+                            [length]="totalSize" [pageSizeOptions]="[5, 10, 50, 100]">
+                           </mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+
+  

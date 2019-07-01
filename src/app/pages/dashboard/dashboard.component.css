@@ -1,0 +1,20 @@
+.book-list:hover{
+    cursor: pointer;
+    background: whitesmoke;
+}
+
+.input-search{
+    margin-right: 20px;
+    /* padding: 10px; */
+    padding-left: 15px;
+    width: 35%;
+    border: none;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 15px;
+    font-size: 0.7rem;
+}
+
+.input-search:hover{
+    background: whitesmoke;
+}

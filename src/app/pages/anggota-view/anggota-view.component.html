@@ -1,0 +1,73 @@
+
+    <div class="container-fluid" style="margin-top:25px">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger" fxLayout="row">
+                       <div>
+                          <h4 class="card-title ">Master Data Anggota</h4>
+                        <p class="card-category"> Perpustakaan</p>
+                       </div>
+                       
+                       <div fxLayoutAlign="end center" style="width:80%;">
+                        <input type="text" [formControl]="keyword" mat-input placeholder="Pencarian kode anggota, nama..." class="input-search">
+                         <button style="background:#ff665e" mat-button (click)="gotoAddPage()">+ Tambah</button>
+                       </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead style="color:#3073dd">
+                                    <th>
+                                        No
+                                    </th>
+                                    <th>
+                                        Kode Anggota
+                                    </th>
+                                    <th>
+                                        Nama Lengkap
+                                    </th>
+                                    
+                                    <th>
+                                        Email
+                                    </th>
+                                    <th>
+                                        Nomor Handphone
+                                    </th>
+                                </thead>
+                                <tbody>
+                                  
+                                    <tr *ngFor="let anggota of anggotaList;let no = index" class="book-list" (click)="gotoDetail(anggota?.kode_anggota)">
+                                        <td>
+                                            {{no+1}}
+                                        </td>
+                                        <td>
+                                            {{anggota?.kode_anggota}}
+                                        </td>
+                                        <td>
+                                            {{anggota?.nama_lengkap}}
+                                        </td>
+                                
+                                        <td>
+                                            {{anggota?.email}}
+                                        </td>
+                                        <td class="text-primary">
+                                            {{anggota?.nomor_handphone}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <mat-paginator (page)="pageEvent = handlePage($event)" #paginator style="width: 100%;background: unset;margin-bottom:50px"
+                            [length]="totalSize" [pageSizeOptions]="[5, 10, 50, 100]">
+                           </mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+
+  

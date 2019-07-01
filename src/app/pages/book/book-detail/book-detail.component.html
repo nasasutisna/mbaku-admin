@@ -1,0 +1,56 @@
+<!-- <mat-toolbar style="padding:10px!important;">
+	<h3 style="padding-left:15px">Dashboard</h3>
+</mat-toolbar> -->
+
+<div class="main">
+
+  <div class="container-fluid" style="margin-bottom:20px;margin-top:40px;">
+    <div fxLayout="row" class="link-badge">
+      <a routerLink="/book" style="padding-right: 8px;font-size:14px;cursor: pointer;">Daftar Buku</a>
+      <span style="padding-right: 8px;font-size:12px">></span>
+      <a style="font-size:14px">Detail Buku</a>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="container-detail">
+      <div fxLayout="row">
+        <div style="height:350px;width:30%" fxLayoutAlign="start center">
+          <div style="width:100%;height:300px;padding-left:20px;padding-right:20px;padding-top:10px;padding-bottom:10px;">
+            <img src="{{restApi.url + book?.path_image}}" width="100%" height="100%" style="border-radius:3px;">
+          </div>
+        </div>
+        <div style="height:300px;width:70%;padding-left:15px" flex="none" fxLayoutAlign="start start">
+          <mat-list style="width:100%">
+            <mat-list-item style="margin-bottom:10px;">
+              <h3 class="title-book">{{book?.judul}}</h3>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <div class="sinopsis">
+              <div><b class="title">Kode Buku :</b> {{book?.kode_buku}}</div>
+              <div><b class="title">Sinopsis :</b> {{book?.sinopsis}}</div>
+              <div style="margin-top:10px"><b class="title">Pengarang :</b> {{book?.pengarang}} </div>
+              <div><b class="title">Penerbit :</b> {{book?.penerbit}} </div>
+              <div><b class="title">Tahun Terbit :</b> {{book?.tahun_terbit}} </div>
+              <div><b class="title">Stok :</b> {{book?.stok}} </div>
+              <div><b class="title">Total :</b> {{book?.jumlah}} </div>
+              <div><b class="title">Terakhir diupdate :</b> {{book?.update_at | date}} </div>
+            </div>
+          </mat-list>
+        </div>
+      </div>
+      <div>
+        <div>
+          <div fxLayoutAlign="end end" style="position:relative;top:15px;margin-left:15px;width: 100%;float:right">
+              <button mat-button style="background:orangered;color:white;line-height: 50px;margin-right: 15px" (click)="edit()">Edit Buku</button>
+            <button (click)="gotoEbook(book.kode_buku)" mat-button style="background:orangered;color:white;line-height: 50px;">Lihat
+              E-BOOK</button>
+          </div>
+        
+          <!-- <div class="col-4" fxFlex="50" fxLayoutAlign="end center">
+            Disukai : {{book.ratting}}
+          </div> -->
+        </div>
+       
+      </div>
+    </div>
+    <mat-divider style="margin-bottom:20px;"></mat-divider>
+  </div>
