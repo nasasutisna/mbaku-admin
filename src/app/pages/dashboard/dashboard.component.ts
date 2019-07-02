@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as Chartist from 'chartist';
 import { RestApiService } from 'app/service/rest-api.service';
 import { FormControl } from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,6 +28,7 @@ export class DashboardComponent implements OnInit {
   constructor(public restApi: RestApiService) { 
     this.getSummary();
     this.getTransactionList();
+    this.search();
   }
 
   getSummary(){
@@ -35,6 +37,20 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  
+  search() {
+    this.keyword.valueChanges.pipe(debounceTime(500)).subscribe((keyword) => {
+      this.formData.keyword = keyword;
+
+      this.restApi.getDataTransaction(this.formData).subscribe((results: any) => {
+        this.transactionList = results.data;
+        this.totalSize = results.totalPage;
+      },
+        err => {
+          console.log('error', err);
+        });
+    })
+  }
   getTransactionList() {
     this.restApi.getDataTransaction(this.formData).subscribe((results: any) => {
       this.transactionList = results.data;
