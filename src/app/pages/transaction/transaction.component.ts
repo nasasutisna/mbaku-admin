@@ -7,6 +7,8 @@ import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { QrCodeScannerDialogComponent } from 'app/qr-code-scanner-dialog/qr-code-scanner-dialog.component';
+import { RestApiService } from 'app/service/rest-api.service';
+import { NotifService } from 'app/service/notif.service';
 @Component({
   selector: 'app-transaction',
   templateUrl: './transaction.component.html',
@@ -37,7 +39,7 @@ export class TransactionComponent implements OnInit {
 
   toggleCount = 0;
 
-  constructor(public router: Router,    private readonly _dialog: MatDialog) { }
+  constructor(public router: Router,    private readonly _dialog: MatDialog, public restApi: RestApiService, public notifService: NotifService) { }
 
   ngOnInit() {}
     
@@ -107,9 +109,16 @@ export class TransactionComponent implements OnInit {
 
   openDialog(type?:any) {
     console.log(type);
-    this._dialog.open(QrCodeScannerDialogComponent, {}).afterClosed().subscribe(result => {
-        if (result) {
-          this.router.navigate(['/transaction/',result],{ queryParams: {transaction: type}});
+    this._dialog.open(QrCodeScannerDialogComponent, {}).afterClosed().subscribe(kode_anggota => {
+        if (kode_anggota) {
+          this.restApi.detailAccount(kode_anggota).subscribe((result:any) => {
+            if(result.kode_anggota){
+              this.router.navigate(['/transaction/',kode_anggota],{ queryParams: {transaction: type, content: JSON.stringify(result)}});
+            }
+            else{
+              this.notifService.showMessage("Koda Anggota tidak ditemukan","warning","bottom");
+            }
+          })
         }
     });
   }

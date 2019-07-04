@@ -50,24 +50,28 @@ export class TransactionAddComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.dateNow = new Date().getDate() +'/'+ new Date().getMonth() +'/'+ new Date().getFullYear();
+    this.dateNow = moment().format("DD/MM/YYYY");
     this.tanggal_pengembalian =  moment().toISOString();
     this.kodeAnggota = this.route.snapshot.params['id'];
-    this.getDetailAnggota(this.kodeAnggota);
 
     this.route.queryParams.subscribe((params) => {
       this.transaction = params['transaction'];
+      this.content = JSON.parse(params['content']);
       if(this.transaction == 'pengembalian'){
         this.getListPeminjaman();
       }
     })
   }
 
-  getDetailAnggota(kodeAnggota) {
-    this.restApi.detailAccount(kodeAnggota).subscribe((result) => {
-      this.content = result;
-    })
-  }
+  // getDetailAnggota(kodeAnggota) {
+  //   this.restApi.detailAccount(kodeAnggota).subscribe((result) => {
+  //     this.content = result;
+  //     if(!this.content.kode_anggota){
+  //       console.log('tidak ditemukan')
+  //       thi
+  //     }
+  //   });
+  // }
 
   getListPeminjaman(){
     this.restApi.getListByAnggota({kode_anggota: this.kodeAnggota}).subscribe((results:any) => {
@@ -88,8 +92,7 @@ export class TransactionAddComponent implements OnInit {
 
   getDetailBook(kodeBuku){
     this.restApi.getDetailBook(kodeBuku).subscribe((result:any) => {
-      if(result){
-        
+      if(result.kode_buku){
         let index = this.bookList.findIndex(book => book.kode_buku == result.kode_buku);
         if(index != -1){
           this.bookList[index]['qty']++;
@@ -98,6 +101,9 @@ export class TransactionAddComponent implements OnInit {
           result['qty'] = 1;
           this.bookList.push(result);
         }
+      }
+      else{
+        this.notifService.showMessage("Kode buku tidak ditemukan","danger","bottom");
       }
     });  
   }
