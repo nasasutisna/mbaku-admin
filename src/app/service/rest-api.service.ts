@@ -138,6 +138,7 @@ export class RestApiService {
     formData.append('jumlah', criteria.jumlah);
     formData.append('ebook', criteria.ebook);
     formData.append('path_image', criteria.path_image);
+    formData.append('harga_ebook', criteria.harga_ebook);
     
     if(serialId){
       formData.append('isUpdate', 'true');
